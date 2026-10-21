@@ -105,6 +105,10 @@ h2 { font-size: 26px; font-weight: 400; letter-spacing: -.7px; line-height: 1.2;
 .card.solved .clue-number { background: #ffffff70; }
 .check { font-size: 14px; color: #4f682d; }
 .question { font-size: 17px; font-weight: 500; line-height: 1.45; margin: 16px 0 20px; flex: 1; }
+/* Reserve the same space for entry controls and the solved answer, including wrapped names. */
+.card-response { display: grid; }
+.answer-entry, .answer-result { grid-area: 1 / 1; min-width: 0; }
+.card.solved .answer-entry, .card:not(.solved) .answer-result { visibility: hidden; }
 .answerline { display: flex; border-bottom: 1px solid #bfc4b5; align-items: center; }
 .answerline:focus-within { border-color: #536732; }
 .answerline input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; padding: 6px 0; font-size: 15px; }
@@ -113,8 +117,7 @@ h2 { font-size: 26px; font-weight: 400; letter-spacing: -.7px; line-height: 1.2;
 .card-tools button { font-size: var(--support-size); line-height: 1.5; padding: 2px 0; border: 0; background: none; color: var(--muted); }
 .card-tools button:hover { text-decoration: underline; }
 .answer-name { font-size: 19px; letter-spacing: -.4px; margin: 0 0 4px; }
-.card-feedback { color: #8a513d; }
-.card-feedback:not(:empty) { margin-top: 6px; }
+.card-feedback { color: #8a513d; min-height: 19.5px; margin-top: 6px; }
 .bottom-bar { display: flex; justify-content: flex-end; margin-top: 22px; }
 .primary, .secondary { border-radius: 30px; padding: 12px 20px; font-size: var(--support-size); line-height: 1.5; white-space: nowrap; }
 .primary { background: #252820; color: #fff; border: 1px solid #252820; }
