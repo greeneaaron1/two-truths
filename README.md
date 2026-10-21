@@ -16,8 +16,10 @@ Open http://localhost:4173. No install or build step is needed.
 
 - Puzzle 000 (the original example) and Puzzle 001 (a new set of nine clues)
 - Archive navigation with per-puzzle progress and completion status
+- A Play opening for each unstarted puzzle, with a gentle row-by-row reveal; opened puzzles resume directly, even before the first answer
 - A confirmed start-over action on each completed puzzle’s results screen
 - Direct puzzle links (`#puzzle/000`, `#puzzle/001`) and an archive link (`#archive`)
+- Opening-screen preview (`#welcome`) that preserves saved progress; Play resumes the latest puzzle
 - Last-name aliases, letter hints, and answer reveals
 - Two hidden-truth rounds, shuffle, progressive nudges, trio feedback, and unlimited attempts
 - Answer celebrations, a perspective-change transition, and a staggered final matrix

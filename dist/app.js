@@ -2,7 +2,7 @@
 const latest=puzzles[puzzles.length-1];
 let current=latest,puzzle=current.entries,labels=current.labels;
 const storageKey=id=>id==='000'?'two-truths-example-v1':`two-truths-${id}-v1`;
-const fresh=()=>({solved:[],hints:{},revealed:[],phase:0,axis:null,groups:[],second:[],mistakes:0,clueMistakes:0,nudges:{},nudgeCount:0});
+const fresh=()=>({started:false,solved:[],hints:{},revealed:[],phase:0,axis:null,groups:[],second:[],mistakes:0,clueMistakes:0,nudges:{},nudgeCount:0});
 function loadState(id){try{const saved=JSON.parse(localStorage.getItem(storageKey(id)));if(saved&&Array.isArray(saved.solved)&&[0,1,2,3].includes(saved.phase))return {...fresh(),...saved}}catch{}return fresh()}
 let state=loadState(current.id);
 let selected=[],notice='',order=puzzle.map(p=>p.id),celebrate=null,animateMatrix=false,turning=false,phaseAnimation=null;
@@ -10,12 +10,39 @@ const reducedMotion=()=>window.matchMedia('(prefers-reduced-motion: reduce)').ma
 const truth=axis=>current.truths[axis];
 
 const $=s=>document.querySelector(s),game=$('#game');
+let openingAnimations=[];
+function cancelOpening(){openingAnimations.forEach(animation=>animation.cancel());openingAnimations=[]}
+function hasStarted(saved){return saved.started||saved.solved.length>0||saved.phase>0||Object.keys(saved.hints).length>0||saved.clueMistakes>0}
+async function startPuzzle(){
+  const button=$('#play-puzzle');
+  if(button.disabled)return;
+  button.disabled=true;
+  if(!reducedMotion()){
+    const outgoing=$('#welcome').animate([{opacity:1},{opacity:0}],{duration:240,fill:'forwards'});
+    openingAnimations.push(outgoing);
+    try{await outgoing.finished}catch{return}
+  }
+  state.started=true;
+  render();
+  $('#puzzle-label').focus({preventScroll:true});
+  say(state.phase===0?'Puzzle ready. Solve the nine clues.':'Puzzle resumed.');
+  if(reducedMotion()||state.phase!==0)return;
+  const columns=window.matchMedia('(max-width: 640px)').matches?2:3;
+  const elements=[$('.steps'),game.querySelector('.section-head'),...game.querySelectorAll('.card'),game.querySelector('.bottom-bar')];
+  elements.forEach((element,index)=>{
+    const delay=index<2?index*80:index===elements.length-1?520:200+Math.floor((index-2)/columns)*120;
+    const animation=element.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}],{duration:700,delay,easing:'cubic-bezier(.2,.65,.3,1)',fill:'both'});
+    openingAnimations.push(animation);
+    animation.finished.then(()=>animation.cancel(),()=>{});
+  });
+}
+$('#play-puzzle').onclick=startPuzzle;
 function save(){try{localStorage.setItem(storageKey(current.id),JSON.stringify(state))}catch{}}
 function say(t){$('#announce').textContent=t}
 function norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'')}
 function setNotice(t){notice=t;render();say(t)}
 function puzzleComplete(){return state.groups.length===3&&state.second.length===3}
-function render(){turning=false;phaseAnimation?.cancel();phaseAnimation=null;save();for(let i=0;i<3;i++){const b=$('#step'+i);b.classList.toggle('active',i===(state.phase===0?0:state.phase===3?2:1));b.disabled=i===1&&state.solved.length<9||i===2&&!puzzleComplete();b.setAttribute('aria-current',b.classList.contains('active')?'step':'false')}
+function render(){cancelOpening();$('#welcome').hidden=true;$('.steps').hidden=false;game.hidden=false;turning=false;phaseAnimation?.cancel();phaseAnimation=null;save();for(let i=0;i<3;i++){const b=$('#step'+i);b.classList.toggle('active',i===(state.phase===0?0:state.phase===3?2:1));b.disabled=i===1&&state.solved.length<9||i===2&&!puzzleComplete();b.setAttribute('aria-current',b.classList.contains('active')?'step':'false')}
 if(state.phase===0)renderClues();else if(state.phase===3)renderResults();else renderGroups();celebrate=null;animateMatrix=false;}
 function puzzleLabel(){return `<span class="puzzle-label" id="puzzle-label" tabindex="-1">Puzzle ${current.id}${current.example?' · Example':''}</span>`}
 function renderClues(){game.innerHTML=`<div class="section-head clue-progress">${puzzleLabel()}<div class="progress"><span class="progress-dots">${puzzle.map(p=>`<i class="${state.solved.includes(p.id)?'on':''} ${celebrate===p.id?'dot-pop':''}"></i>`).join('')}</span>${state.solved.length} / 9 solved</div></div><div class="clue-grid">${puzzle.map((p,i)=>{const done=state.solved.includes(p.id),h=state.hints[p.id]||0;return `<article class="card ${done?'solved':''} ${celebrate===p.id?'answer-pop':''}"><div class="card-top"><span class="clue-number">${String(i+1).padStart(2,'0')}</span>${done?'<span class="check" aria-label="Solved">✓</span>':''}</div><p class="question">${p.clue}</p><div class="card-response"><div class="answer-entry" ${done?'aria-hidden="true" inert':''}><form ${done?'':`data-id="${p.id}"`}><div class="answerline"><input autocomplete="off" spellcheck="false" aria-label="Answer to clue ${i+1}" placeholder="${h?hintText(p,h):'Your answer…'}"><button aria-label="Submit answer to clue ${i+1}">↗</button></div><div class="card-feedback" role="status"></div></form><div class="card-tools"><button ${done?'':`data-hint="${p.id}"`}>Letter hint${h?' · '+h:''}</button><button ${done?'':`data-reveal="${p.id}"`}>Reveal</button></div></div><div class="answer-result" ${done?'':'aria-hidden="true"'}><p class="answer-name">${p.name}</p><span class="answer-note">${state.revealed.includes(p.id)?'Revealed':'Correct'}</span></div></div></article>`}).join('')}</div><div class="bottom-bar"><button class="primary" id="begin" ${state.solved.length===9?'':'disabled'}>Find two truths <span>↗</span></button></div>`;
@@ -74,7 +101,7 @@ $('#help').addEventListener('click',event=>{if(helpBackdropPress&&event.target==
 $('#help .close').onclick=()=>$('#help').close();$('.close-help').onclick=()=>$('#help').close();
 $('#step0').onclick=()=>{state.phase=0;render()};$('#step1').onclick=()=>{state.phase=state.second.length===3?2:state.groups.length===3?2:1;selected=[];notice='';render()};$('#step2').onclick=()=>{if(!puzzleComplete())return;state.phase=3;selected=[];notice='';render()};
 $('#cancel-restart').onclick=()=>$('#restart-dialog').close();
-$('#confirm-restart').onclick=()=>{state=fresh();selected=[];notice='';order=puzzle.map(p=>p.id);$('#restart-dialog').close();render();say('Puzzle restarted.');$('#puzzle-label').focus();window.scrollTo({top:0,behavior:'instant'})};
+$('#confirm-restart').onclick=()=>{state={...fresh(),started:true};selected=[];notice='';order=puzzle.map(p=>p.id);$('#restart-dialog').close();render();say('Puzzle restarted.');$('#puzzle-label').focus();window.scrollTo({top:0,behavior:'instant'})};
 window.addEventListener('hashchange',route);
 route();
 
@@ -82,29 +109,37 @@ function archiveStatus(saved){
   if(saved.groups.length===3&&saved.second.length===3)return 'Completed';
   if(saved.groups.length===3)return 'Second truth in progress';
   if(saved.solved.length===9)return 'Truths in progress';
-  return saved.solved.length?`${saved.solved.length} / 9 answers`:'Not started';
+  return hasStarted(saved)?`${saved.solved.length} / 9 answers`:'Not started';
 }
 function renderArchive(missing=false){
   $('#archive').innerHTML=`<div class="archive-intro"><h1 id="archive-title" tabindex="-1">The Archive<span class="period">.</span></h1>${missing?'<p class="sub intro-description">That puzzle isn’t available. Choose one below.</p>':''}</div><div class="archive-list">${[...puzzles].reverse().map(item=>{
-    const saved=loadState(item.id),status=archiveStatus(saved),started=saved.solved.length>0,complete=saved.groups.length===3&&saved.second.length===3;
+    const saved=loadState(item.id),status=archiveStatus(saved),started=hasStarted(saved),complete=saved.groups.length===3&&saved.second.length===3;
     return `<a class="archive-card" href="#puzzle/${item.id}"><div><div class="archive-meta">${item.example?'Example puzzle':item===latest?'Latest puzzle':'Past puzzle'}</div><h2>Puzzle ${item.id}</h2></div><div class="archive-action"><span class="archive-status ${complete?'complete':''}">${status}</span><span>${complete?'View':started?'Continue':'Play'} <span aria-hidden="true">↗</span></span></div></a>`;
   }).join('')}</div><p class="sub archive-note">Progress is saved on this browser.</p>`;
 }
 function route(){
-  save();turning=false;phaseAnimation?.cancel();phaseAnimation=null;
+  save();cancelOpening();turning=false;phaseAnimation?.cancel();phaseAnimation=null;
   if($('#restart-dialog').open)$('#restart-dialog').close();
   say('');
   $('#play-link').setAttribute('href',`#puzzle/${latest.id}`);
   $('.brand').setAttribute('href',`#puzzle/${latest.id}`);
   const hash=location.hash,match=hash.match(/^#puzzle\/(\d{3})$/),requested=match?puzzles.find(item=>item.id===match[1]):null;
-  const archive=hash==='#archive'||(hash!==''&&!requested);
-  $('.intro').hidden=archive;$('.steps').hidden=archive;game.hidden=archive;$('#archive').hidden=!archive;
+  const preview=hash==='#welcome';
+  const archive=hash==='#archive'||(hash!==''&&!requested&&!preview);
+  $('.intro').hidden=archive;$('#welcome').hidden=true;$('.steps').hidden=archive;game.hidden=archive;$('#archive').hidden=!archive;
   $('#archive-link').setAttribute('aria-current',archive?'page':'false');
   $('#play-link').setAttribute('aria-current',!archive?'page':'false');
   if(archive){renderArchive(hash!=='#archive');document.title='Archive · Two Truths';$('#archive-title').focus();return}
   current=requested||latest;puzzle=current.entries;labels=current.labels;state=loadState(current.id);
   selected=[];notice='';order=puzzle.map(p=>p.id);celebrate=null;animateMatrix=false;
   document.title=`Puzzle ${current.id} · Two Truths`;
+  if(preview||!hasStarted(state)){
+    game.hidden=true;game.innerHTML='';$('.steps').hidden=true;$('#welcome').hidden=false;
+    $('#play-puzzle-label').textContent=current===latest?"Play today's puzzle":`Play Puzzle ${current.id}`;
+    $('#play-puzzle').disabled=false;
+    if(hash){$('.intro h1').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'})}
+    return;
+  }
   render();
   if(hash){$('#puzzle-label').focus();window.scrollTo({top:0,behavior:'instant'})}
 }

@@ -88,6 +88,66 @@ test('archive hides the game and unknown puzzle links show a useful fallback',()
   assert.match(a.nodes.get('#archive').innerHTML,/isn’t available/);
 });
 
+test('new puzzles hide clues until Play and remember opening before any answers',async()=>{
+  const a=app();
+  assert.equal(a.nodes.get('#welcome').hidden,false);
+  assert.equal(a.nodes.get('#game').hidden,true);
+  assert.equal(a.nodes.get('.steps').hidden,true);
+  assert.equal(a.nodes.get('#game').innerHTML,'');
+  assert.equal(a.nodes.get('#play-puzzle-label').textContent,"Play today's puzzle");
+  await a.nodes.get('#play-puzzle').onclick();
+  assert.equal(a.nodes.get('#welcome').hidden,true);
+  assert.equal(a.nodes.get('#game').hidden,false);
+  assert.equal(a.nodes.get('.steps').hidden,false);
+  assert.match(a.nodes.get('#game').innerHTML,/0 \/ 9 solved/);
+  const reload=app(Object.fromEntries(a.storage));
+  assert.equal(reload.nodes.get('#welcome').hidden,true);
+  assert.equal(reload.nodes.get('#game').hidden,false);
+  assert.equal(reload.run('state.solved.length'),0);
+  reload.run(`location.hash='#archive';route();`);
+  assert.match(reload.nodes.get('#archive').innerHTML,/0 \/ 9 answers/);
+  assert.match(reload.nodes.get('#archive').innerHTML,/Continue/);
+});
+
+test('each unstarted archive puzzle has its own opening and correct button',async()=>{
+  const a=app();
+  await a.nodes.get('#play-puzzle').onclick();
+  a.run(`location.hash='#puzzle/000';route();`);
+  assert.equal(a.nodes.get('#welcome').hidden,false);
+  assert.equal(a.nodes.get('#game').innerHTML,'');
+  assert.equal(a.nodes.get('#play-puzzle-label').textContent,'Play Puzzle 000');
+  a.run(`location.hash='#archive';route();`);
+  assert.equal(a.nodes.get('#welcome').hidden,true);
+  assert.equal(a.nodes.get('#game').hidden,true);
+  a.run(`location.hash='#puzzle/000';route();`);
+  await a.nodes.get('#play-puzzle').onclick();
+  a.run(`location.hash='#puzzle/001';route();`);
+  assert.equal(a.nodes.get('#welcome').hidden,true);
+  assert.equal(a.run('state.started'),true);
+});
+
+test('existing progress, including only hints or wrong guesses, skips the opening',()=>{
+  for(const progress of [{solved:['dench']},{hints:{dench:1}},{clueMistakes:1},{phase:1}]){
+    const a=app({'two-truths-001-v1':JSON.stringify({solved:[],phase:0,...progress})});
+    assert.equal(a.nodes.get('#welcome').hidden,true);
+    assert.equal(a.nodes.get('#game').hidden,false);
+  }
+});
+
+test('welcome preview shows the opening without clearing saved progress',async()=>{
+  const progress={started:true,solved:['dench'],hints:{williams:2},phase:1};
+  const a=app({'two-truths-001-v1':JSON.stringify(progress)},'#welcome');
+  assert.equal(a.nodes.get('#welcome').hidden,false);
+  assert.equal(a.nodes.get('#game').hidden,true);
+  assert.equal(a.nodes.get('#archive').hidden,true);
+  assert.equal(a.run('state.solved[0]'),'dench');
+  await a.nodes.get('#play-puzzle').onclick();
+  assert.equal(a.nodes.get('#game').hidden,false);
+  assert.equal(a.run('state.phase'),1);
+  assert.equal(a.run('state.solved[0]'),'dench');
+  assert.equal(a.run('state.hints.williams'),2);
+});
+
 test('restart requires confirmation and only resets the current puzzle',()=>{
   const a=app({'two-truths-example-v1':JSON.stringify({solved:['newton'],phase:0})});
   a.run(`state.solved=puzzle.map(p=>p.id);state.groups=[0,1,2];state.second=[0,1,2];state.axis='field';state.phase=3;render();`);
