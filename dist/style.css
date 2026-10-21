@@ -99,6 +99,7 @@ h2 { font-size: 26px; font-weight: 400; letter-spacing: -.7px; line-height: 1.2;
 .sub { margin: 0; }
 .intro-description { margin-top: 14px; font-size: 17px; }
 .clue-progress { justify-content: space-between; align-items: center; }
+.clue-progress .progress { margin-inline-start: auto; justify-content: flex-end; text-align: right; }
 .puzzle-label { color: var(--muted); font-size: var(--support-size); line-height: 1.5; white-space: nowrap; }
 .puzzle-context { margin-bottom: 20px; }
 .progress { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
@@ -106,6 +107,7 @@ h2 { font-size: 26px; font-weight: 400; letter-spacing: -.7px; line-height: 1.2;
 .progress-dots i { width: 5px; height: 5px; background: #dbddd3; border-radius: 50%; }
 .progress-dots i.on { background: #718e35; }
 .clue-grid, .tile-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.clue-grid { gap: 20px; }
 .card { border: 1px solid var(--line); border-radius: 10px; background: #fdfdf9; padding: 19px; display: flex; flex-direction: column; min-height: 204px; transition: border-color .15s, background .15s; }
 .card:nth-child(3n + 2) { --solved: #e7def4; --solved-border: #d2bfe8; --solved-flash: #d6c4ed; }
 .card:nth-child(3n) { --solved: #dce9f1; --solved-border: #bfd6e5; --solved-flash: #c5e1f1; }
@@ -196,7 +198,7 @@ dialog p { margin: 20px 0; }
   .intro { padding: 26px 0; }
   .steps span { margin-right: 6px; }
   .steps button.active:after { width: 90%; }
-  .clue-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+  .clue-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
   .card { padding: 14px; }
   .question { font-size: 16px; }
   .section-head { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
