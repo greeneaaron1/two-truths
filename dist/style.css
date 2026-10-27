@@ -201,12 +201,12 @@ dialog .close { position: absolute; top: 14px; right: 20px; border: 0; backgroun
 .help-number { align-self: start; padding-top: 5px; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .help-copy strong { display: block; color: var(--paper); font-size: 22px; font-weight: 400; line-height: 1.2; letter-spacing: -.035em; }
 #help .help-copy p { margin: 9px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
-.help-diagram { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; width: 76px; aspect-ratio: 1; transform: rotate(-6deg); }
+.help-diagram { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; width: 76px; aspect-ratio: 1; transform: none; }
 .help-diagram i { display: block; border-radius: 5px; background: #3a3e3e; border: 1px solid #ffffff20; }
 .help-first i:nth-child(-n+3) { background: var(--green); }
 .help-first i:nth-child(n+4):nth-child(-n+6) { background: var(--purple); }
 .help-first i:nth-child(n+7) { background: var(--blue); }
-.help-second { transform: rotate(6deg); }
+.help-first, .help-second { transform: rotate(-6deg); }
 .help-second i:nth-child(3n+1) { background: var(--green); }
 .help-second i:nth-child(3n+2) { background: var(--purple); }
 .help-second i:nth-child(3n) { background: var(--blue); }
