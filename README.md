@@ -25,9 +25,9 @@ If you see an older design after pulling updates, refresh once with **Cmd+Shift+
 - Direct puzzle links (`#puzzle/000`, `#puzzle/001`) and an archive link (`#archive`)
 - Opening-screen preview (`#welcome`) that preserves saved progress; Play resumes the latest puzzle
 - Last-name aliases, letter hints, and answer reveals
-- Two hidden-truth rounds, shuffle, progressive nudges, trio feedback, and unlimited attempts
+- Two hidden-truth rounds with Shuffle, Deselect All, Submit, hints, and four errors per truth; remaining groups are revealed when the allowance runs out
 - Answer celebrations, a perspective-change transition, and a staggered final matrix
-- Local progress saving and a result with a symbolic first truth and discovery path to copy (no people, group names, or hidden lenses)
+- Local progress and unfinished-answer saving, plus results that distinguish found and revealed truths, with a symbolic first truth and discovery path to copy (no people, group names, or hidden lenses)
 - Responsive layout, keyboard controls, reduced-motion support
 
 The prototype has no accounts, daily scheduling, multiplayer, or remote score storage. Puzzle data and the two authored classifications live in `dist/puzzles.js`; alternative connections are not automatically judged. The last catalog entry is the latest puzzle and opens by default. Original example progress keeps its existing storage key; other puzzles save separately.
@@ -53,6 +53,6 @@ Clues were checked against [James Bond’s Judi Dench profile](https://www.007.c
 
 ## Verification
 
-Run `node --test tests/puzzles.test.cjs` for catalog integrity, both discovery orders on both puzzles, per-puzzle share text, save isolation, legacy example progress, and archive routing checks. No dependencies are required.
+Run `node --test tests/*.test.cjs` for catalog integrity, both discovery orders, grouping controls and per-truth error limits, repeated-guess handling, saved drafts, clue focus, instruction actions, per-puzzle share text, save isolation, legacy progress, archive routing, and headline effects. No dependencies are required.
 
 JavaScript syntax and whitespace checks passed. Browser walkthroughs covered both discovery orders, all nine clue answers, letter hints and reveals, progressive and selected-trio nudges, the perspective transition, completion, copied results, and progress after reloading. The final matrix was also checked at a 390px phone width with no horizontal overflow. Motion effects respect the system’s reduced-motion preference.
