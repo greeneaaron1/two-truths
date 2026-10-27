@@ -12,6 +12,10 @@ python3 -m http.server 4173 --directory dist
 
 Open http://localhost:4173. No install or build step is needed.
 
+To preview the redesigned opening even if you have saved puzzle progress, open http://localhost:4173/#welcome. The current design has a charcoal background, a citron headline, and nine colorful animated pieces.
+
+If you see an older design after pulling updates, refresh once with **Cmd+Shift+R** (Mac) or **Ctrl+Shift+R** (Windows/Linux). Run the server from this repository's root; an existing server on port 4173 may be serving a different checkout. Stop it with Ctrl+C before starting this command again. Styles, scripts, and the icon use content-versioned URLs to avoid reusing cached assets; update each asset's `?v=` value in `dist/index.html` when that asset changes.
+
 ## Included
 
 - Puzzle 000 (the original example) and Puzzle 001 (a new set of nine clues)
