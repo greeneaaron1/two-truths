@@ -106,17 +106,11 @@ $('#confirm-restart').onclick=()=>{state={...fresh(),started:true};selected=[];n
 window.addEventListener('hashchange',route);
 route();
 
-function archiveStatus(saved){
-  if(saved.groups.length===3&&saved.second.length===3)return 'Completed';
-  if(saved.groups.length===3)return 'Second truth in progress';
-  if(saved.solved.length===9)return 'Truths in progress';
-  return hasStarted(saved)?`${saved.solved.length} / 9 answers`:'Not started';
-}
 function renderArchive(missing=false){
-  $('#archive').innerHTML=`<div class="archive-intro"><h1 id="archive-title" tabindex="-1">The Archive<span class="period">.</span></h1>${missing?'<p class="sub intro-description">That puzzle isn’t available. Choose one below.</p>':''}</div><div class="archive-list">${[...puzzles].reverse().map(item=>{
-    const saved=loadState(item.id),status=archiveStatus(saved),started=hasStarted(saved),complete=saved.groups.length===3&&saved.second.length===3;
-    return `<a class="archive-card" href="#puzzle/${item.id}"><div><div class="archive-meta">${item.example?'Example puzzle':item===latest?'Latest puzzle':'Past puzzle'}</div><h2>Puzzle ${item.id}</h2></div><div class="archive-action"><span class="archive-status ${complete?'complete':''}">${status}</span><span>${complete?'View':started?'Continue':'Play'} <span aria-hidden="true">↗</span></span></div></a>`;
-  }).join('')}</div><p class="sub archive-note">Progress is saved on this browser.</p>`;
+  $('#archive').innerHTML=`<div class="archive-intro"><h1 id="archive-title" tabindex="-1">Archive<span class="period">.</span></h1>${missing?'<p class="sub intro-description">That puzzle isn’t available. Choose one below.</p>':''}</div><div class="archive-list">${[...puzzles].reverse().map(item=>{
+    const saved=loadState(item.id),started=hasStarted(saved),complete=saved.groups.length===3&&saved.second.length===3;
+    return `<a class="archive-card" href="#puzzle/${item.id}"><h2>Puzzle ${item.id}</h2><span class="archive-action">${complete?'View':started?'Continue':'Play'} <span aria-hidden="true">↗</span></span></a>`;
+  }).join('')}</div>`;
 }
 function route(){
   save();cancelOpening();turning=false;phaseAnimation?.cancel();phaseAnimation=null;

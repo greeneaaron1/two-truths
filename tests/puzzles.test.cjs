@@ -61,7 +61,7 @@ for(const id of ['000','001'])for(const first of ['field','nation']){
     assert.match(a.context.copied,new RegExp(`Puzzle ${id}`));
     assert.equal(a.run('puzzle.some(p=>copied.includes(p.name))'),false);
     a.run(`location.hash='#archive';route();`);
-    assert.match(a.nodes.get('#archive').innerHTML,/Completed/);
+    assert.match(a.nodes.get('#archive').innerHTML,/View/);
   });
 }
 
@@ -105,7 +105,6 @@ test('new puzzles hide clues until Play and remember opening before any answers'
   assert.equal(reload.nodes.get('#game').hidden,false);
   assert.equal(reload.run('state.solved.length'),0);
   reload.run(`location.hash='#archive';route();`);
-  assert.match(reload.nodes.get('#archive').innerHTML,/0 \/ 9 answers/);
   assert.match(reload.nodes.get('#archive').innerHTML,/Continue/);
 });
 

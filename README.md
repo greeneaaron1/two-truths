@@ -19,7 +19,7 @@ If you see an older design after pulling updates, refresh once with **Cmd+Shift+
 ## Included
 
 - Puzzle 000 (the original example) and Puzzle 001 (a new set of nine clues)
-- Archive navigation with per-puzzle progress and completion status
+- Archive navigation with Play, Continue, and View actions
 - A Play opening for each unstarted puzzle, with a gentle row-by-row reveal; opened puzzles resume directly, even before the first answer
 - A confirmed start-over action on each completed puzzle’s results screen
 - Direct puzzle links (`#puzzle/000`, `#puzzle/001`) and an archive link (`#archive`)
