@@ -50,9 +50,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--green); outline
 #how:hover span { transform: translate(2px,-2px); }
 main { position: relative; max-width: 1440px; margin: auto; padding: 0 4.5% 72px; }
 .intro { padding: 40px 0 32px; }
-.eyebrow, .round-label { text-transform: uppercase; font-size: 11px; line-height: 1.5; letter-spacing: .15em; font-weight: 500; color: var(--muted); }
-.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 26px; }
-.status-light { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 16px #dfff7040; }
+.round-label { text-transform: uppercase; font-size: 11px; line-height: 1.5; letter-spacing: .15em; font-weight: 500; color: var(--muted); }
 h1 { font-size: clamp(48px, 7vw, 96px); line-height: .97; font-weight: 400; letter-spacing: -.065em; margin: 0; }
 h1 > span { white-space: nowrap; }
 .period { color: var(--green); }
@@ -62,12 +60,11 @@ h1 > span { white-space: nowrap; }
 }
 h2 { font-size: 32px; font-weight: 400; letter-spacing: -1.1px; line-height: 1.15; margin: 0 0 12px; }
 main:has(#welcome:not([hidden])) { min-height: calc(100svh - 103px); padding-bottom: 0; }
-main:has(#welcome:not([hidden])) .intro { padding-top: clamp(28px, 4.5vh, 70px); width: 58%; position: relative; z-index: 1; pointer-events: none; }
+main:has(#welcome:not([hidden])) .intro { padding-top: clamp(70px, 11vh, 120px); width: 58%; position: relative; z-index: 1; pointer-events: none; }
 main:has(#welcome:not([hidden])) .intro h1 { font-size: clamp(80px, 8.4vw, 132px); max-width: 760px; }
 main:has(#welcome:not([hidden])) .truth-word { display: block; font-size: 1.3em; line-height: .95; margin-top: 4px; }
 main:has(#welcome:not([hidden])) .truth-accent { pointer-events: auto; }
 #welcome { padding: 0 0 100px; scroll-margin-top: 100vh; }
-.welcome-copy p { font-size: 18px; line-height: 1.4; letter-spacing: -.3px; color: #c3c5bd; margin: 0 0 30px; }
 .primary, .secondary { border-radius: 50px; padding: 14px 23px; font-size: var(--support-size); line-height: 1.5; white-space: nowrap; transition: transform .25s var(--ease), background .25s, box-shadow .25s; }
 .primary { background: var(--green); color: var(--ink); border: 1px solid var(--green); font-weight: 550; }
 .primary span { margin-left: 20px; }
@@ -79,9 +76,7 @@ main:has(#welcome:not([hidden])) .truth-accent { pointer-events: auto; }
 #play-puzzle #play-puzzle-label { margin: 0; font-size: 15px; }
 #play-puzzle .play-arrow { display: grid; place-items: center; width: 49px; height: 49px; background: var(--ink); color: var(--green); border-radius: 50%; margin: 0; font-size: 25px; transition: transform .4s var(--ease); }
 #play-puzzle:hover .play-arrow { transform: rotate(45deg); }
-.welcome-note { margin: 17px 0 0; color: var(--muted); font-size: 11px; }
 .sculpture-wrap { position: absolute; right: 6%; top: 65px; width: min(38%, calc(100svh - 340px)); max-width: 520px; padding-top: 10px; }
-.sculpture-meta { display: flex; justify-content: space-between; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; font-size: 10px; padding: 0 4px 25px; }
 .sculpture { position: relative; display: block; border: 0; padding: 0; width: 100%; aspect-ratio: 1; background: none; transform: rotate(-8deg); transition: transform 1.2s var(--ease); border-radius: 30px; }
 .sculpture:hover { transform: rotate(-4deg) scale(1.025); }
 .sculpture.shifted { transform: rotate(5deg); }
@@ -98,16 +93,9 @@ main:has(#welcome:not([hidden])) .truth-accent { pointer-events: auto; }
 .glyph-orbit::after { content: ''; position: absolute; inset: 21%; border-radius: 50%; background: var(--ink); }
 .glyph-arch { border: clamp(6px, .9vw, 13px) solid var(--ink); border-bottom: 0; border-radius: 50% 50% 0 0; height: 50%; }
 .glyph-arch::after { content: ''; position: absolute; inset: 24% 24% 0; background: var(--ink); border-radius: 50% 50% 0 0; }
-.sculpture-caption { display: flex; gap: 10px; align-items: center; padding: 34px 4px 0; font-size: 11px; color: var(--muted); }
-.perspective-icon { color: var(--green); font-size: 22px; }
-.sculpture-count { margin-left: auto; font-variant-numeric: tabular-nums; font-size: 10px; }
-.welcome-baseline { display: flex; justify-content: space-between; position: absolute; bottom: 0; left: 4.5%; right: 4.5%; border-top: 1px solid var(--line); margin-top: 0; padding: 22px 0; color: var(--muted); font-size: 11px; }
-.welcome-baseline > span:last-child { text-transform: uppercase; letter-spacing: .1em; }
-.welcome-baseline > span:last-child span { color: var(--green); font-size: 18px; margin-left: 30px; }
 /* The playing surface shares the same visual language at a quieter scale. */
 main:has(#welcome[hidden]) .intro { display: flex; justify-content: space-between; align-items: end; padding: 32px 0 36px; }
 main:has(#welcome[hidden]) .intro h1 { font-size: 55px; }
-main:has(#welcome[hidden]) .intro .eyebrow { order: 2; margin-bottom: 5px; }
 .steps { display: flex; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 28px; }
 .steps button { flex: 1; text-align: left; border: 0; background: none; color: var(--muted); padding: 20px 0; font-size: 14px; line-height: 1.5; position: relative; }
 .steps button.active { color: var(--green); }
@@ -192,21 +180,13 @@ main:has(#welcome[hidden]) .intro .eyebrow { order: 2; margin-bottom: 5px; }
 .archive-status { color: var(--muted); font-size: 11px; }
 .archive-status.complete { color: var(--green); }
 .archive-note.sub { margin-top: 24px; font-size: 11px; }
-.site-footer { display: flex; justify-content: space-between; align-items: center; gap: 24px; border-top: 1px solid var(--line); margin: 0 4.5%; padding: 25px 0; font-size: 11px; color: var(--muted); }
-.site-footer a { text-decoration: none; }
-.site-footer a span { color: var(--green); margin-left: 15px; }
-.footer-brand { font-size: 24px; letter-spacing: -1.4px; color: var(--paper); }
-body:has(#welcome:not([hidden])) .site-footer { display: none; }
 dialog { background: var(--paper); color: var(--ink); max-width: 560px; width: calc(100% - 40px); border: 0; border-radius: 24px; padding: 42px; box-shadow: 0 25px 120px #0006; }
 dialog::backdrop { background: #070909b8; backdrop-filter: blur(12px); }
-dialog h2 { font-size: 48px; letter-spacing: -2px; margin-bottom: 24px; }
-dialog h2 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
-dialog .eyebrow { color: #62665e; font-size: 9px; margin-bottom: 22px; }
+dialog h2 { font-size: 40px; letter-spacing: -1.5px; margin-bottom: 24px; }
 dialog p, dialog li { color: #555b50; font-size: 14px; }
 dialog ol { padding: 0; list-style: none; counter-reset: instructions; }
 dialog li { counter-increment: instructions; position: relative; padding: 0 0 22px 40px; }
 dialog li::before { content: '0' counter(instructions); position: absolute; left: 0; top: 0; font-size: 10px; color: #62665e; border-bottom: 1px solid #17181940; padding-bottom: 7px; }
-dialog li b { color: var(--ink); display: block; font-weight: 500; margin-bottom: 4px; }
 dialog .primary { background: var(--ink); color: var(--green); border-color: var(--ink); margin-top: 10px; }
 dialog .primary:hover:enabled { background: #363a2e; }
 dialog .secondary { color: var(--ink); border-color: #17181940; }
@@ -226,13 +206,9 @@ dialog .close { position: absolute; top: 14px; right: 20px; border: 0; backgroun
 @media(min-width:1500px) { .sculpture-wrap { top: 85px; } }
 @media(max-width:1000px) {
   .topbar { padding-block: 24px; }
-  main:has(#welcome:not([hidden])) .intro { padding-top: 60px; }
+  main:has(#welcome:not([hidden])) .intro { padding-top: 80px; }
   main:has(#welcome:not([hidden])) .intro h1 { font-size: 9.5vw; }
   .sculpture-wrap { top: 95px; right: 5%; width: min(38%, calc(100svh - 340px)); }
-  .sculpture-meta { font-size: 8px; }
-  .sculpture-caption { font-size: 10px; gap: 7px; }
-  .sculpture-count { display: none; }
-  .welcome-baseline { margin-top: 0; }
   .card { padding: 18px; }
   .question { font-size: 17px; }
 }
@@ -250,26 +226,16 @@ dialog .close { position: absolute; top: 14px; right: 20px; border: 0; backgroun
   main:has(#welcome:not([hidden])) { min-height: 0; }
   main:has(#welcome:not([hidden])) .intro { width: 100%; padding: 38px 0 22px; }
   main:has(#welcome:not([hidden])) .intro h1 { font-size: clamp(56px, 18.45vw, 104px); }
-  main:has(#welcome:not([hidden])) .intro .eyebrow { margin-bottom: 26px; font-size: 9px; }
   main:has(#welcome:not([hidden])) .truth-word { display: inline; font-size: 1.15em; line-height: 1; }
-  #welcome { display: flex; flex-direction: column; align-items: flex-start; padding-bottom: 0; }
-  .welcome-copy { order: 0; }
-  .welcome-copy p { font-size: 15px; margin-bottom: 25px; }
+  #welcome { display: flex; flex-direction: column; align-items: flex-start; padding-bottom: 40px; }
   #play-puzzle { order: 1; height: 59px; padding-left: 23px; gap: 30px; }
   #play-puzzle #play-puzzle-label { font-size: 14px; }
   #play-puzzle .play-arrow { width: 43px; height: 43px; }
-  .welcome-note { order: 2; font-size: 10px; }
   .sculpture-wrap { order: 3; position: relative; inset: auto; width: 80%; max-width: 390px; align-self: center; margin: 58px 0 0; }
-  .sculpture-meta { font-size: 8px; padding-bottom: 28px; }
-  .sculpture-caption { padding-top: 30px; font-size: 10px; }
-  .sculpture-count { display: block; }
   .glyph-orbit { border-width: 8px; }
   .glyph-arch { border-width: 8px; border-bottom: 0; }
-  .welcome-baseline { order: 4; position: relative; inset: auto; width: 100%; margin-top: 40px; padding: 20px 0; font-size: 10px; }
-  .welcome-baseline > span:last-child span { margin-left: 15px; }
   main:has(#welcome[hidden]) .intro { padding: 28px 0; }
   main:has(#welcome[hidden]) .intro h1 { font-size: clamp(34px, 7vw, 48px); }
-  main:has(#welcome[hidden]) .intro .eyebrow { display: none; }
   .steps { margin-bottom: 22px; }
   .steps button { padding-block: 16px; font-size: 12px; }
   .steps span { font-size: 9px; margin-right: 7px; }
@@ -311,8 +277,6 @@ dialog .close { position: absolute; top: 14px; right: 20px; border: 0; backgroun
   .archive-action { font-size: 12px; gap: 15px; }
   .archive-status { font-size: 10px; }
   .archive-action > span:last-child span { width: 30px; height: 30px; margin-left: 7px; }
-  .site-footer { margin-inline: 6%; flex-wrap: wrap; gap: 20px; font-size: 9px; }
-  .footer-brand { display: none; }
   dialog { padding: 32px 26px; border-radius: 20px; }
   dialog h2 { font-size: 40px; }
   dialog li, dialog p { font-size: 13px; }

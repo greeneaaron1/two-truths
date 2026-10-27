@@ -8,7 +8,6 @@
     main.scrollIntoView({ block: 'start', behavior: 'instant' });
   });
   const sculpture = document.querySelector('#perspective');
-  const counter = document.querySelector('.sculpture-count');
   const welcome = document.querySelector('#welcome');
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let shifted = false;
@@ -18,7 +17,6 @@
   function shift() {
     shifted = !shifted;
     sculpture.classList.toggle('shifted', shifted);
-    counter.textContent = shifted ? '02 / 02' : '01 / 02';
   }
   function schedule() {
     clearInterval(timer);
