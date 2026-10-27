@@ -206,8 +206,6 @@ dialog .close { position: absolute; top: 14px; right: 20px; border: 0; backgroun
 .help-first i:nth-child(-n+3) { background: var(--green); }
 .help-first i:nth-child(n+4):nth-child(-n+6) { background: var(--purple); }
 .help-first i:nth-child(n+7) { background: var(--blue); }
-.help-first { transform: rotate(-6deg); }
-.help-second { transform: rotate(6deg); }
 .help-second i:nth-child(3n+1) { background: var(--green); }
 .help-second i:nth-child(3n+2) { background: var(--purple); }
 .help-second i:nth-child(3n) { background: var(--blue); }
