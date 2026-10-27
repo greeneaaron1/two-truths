@@ -173,7 +173,7 @@ main:has(#welcome[hidden]) .intro h1 { font-size: 55px; }
 .archive-list { display: grid; gap: 14px; }
 .archive-card { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 35px; border: 1px solid var(--line); border-radius: 18px; background: #232526; text-decoration: none; transition: background .3s, border-color .3s, transform .3s var(--ease); }
 .archive-card:hover { border-color: var(--green); background: #2b3026; transform: translateX(4px); }
-.archive-card h2 { margin: 16px 0 0; font-size: 39px; letter-spacing: -1.5px; }
+.archive-card h2 { margin: 16px 0 0; font-size: 39px; letter-spacing: .015em; font-kerning: none; }
 .archive-meta { color: var(--green); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
 .archive-action { display: flex; flex-direction: column; align-items: flex-end; gap: 20px; font-size: 15px; white-space: nowrap; }
 .archive-action > span:last-child span { display: inline-grid; place-items: center; width: 38px; height: 38px; border: 1px solid #ffffff40; border-radius: 50%; margin-left: 14px; }
@@ -184,15 +184,37 @@ dialog { background: var(--paper); color: var(--ink); max-width: 560px; width: c
 dialog::backdrop { background: #070909b8; backdrop-filter: blur(12px); }
 dialog h2 { font-size: 40px; letter-spacing: -1.5px; margin-bottom: 24px; }
 dialog p, dialog li { color: #555b50; font-size: 14px; }
-dialog ol { padding: 0; list-style: none; counter-reset: instructions; }
-dialog li { counter-increment: instructions; position: relative; padding: 0 0 22px 40px; }
-dialog li::before { content: '0' counter(instructions); position: absolute; left: 0; top: 0; font-size: 10px; color: #62665e; border-bottom: 1px solid #17181940; padding-bottom: 7px; }
 dialog .primary { background: var(--ink); color: var(--green); border-color: var(--ink); margin-top: 10px; }
 dialog .primary:hover:enabled { background: #363a2e; }
 dialog .secondary { color: var(--ink); border-color: #17181940; }
 dialog .secondary:hover { background: #1718190a; }
 dialog button:focus-visible { outline-color: var(--ink); }
 dialog .close { position: absolute; top: 14px; right: 20px; border: 0; background: none; color: var(--ink); font-size: 28px; font-weight: 300; }
+/* Instructions use the same tiles and colors as the playing surface. */
+#help { max-width: 640px; padding: 36px; border: 1px solid #ffffff26; border-radius: 22px; background: #202223; color: var(--paper); }
+#help h2 { padding-right: 48px; margin: 0 0 28px; font-size: 38px; line-height: 1.1; letter-spacing: -.04em; }
+#help .close { top: 29px; right: 30px; width: 36px; height: 36px; display: grid; place-items: center; padding: 0 0 3px; border: 1px solid #ffffff30; border-radius: 50%; color: var(--paper); font-size: 24px; transition: background .2s, border-color .2s; }
+#help .close:hover { background: #ffffff0c; border-color: #ffffff80; }
+#help button:focus-visible { outline-color: var(--green); }
+.help-steps { list-style: none; margin: 0; padding: 0; }
+.help-steps li { display: grid; grid-template-columns: 20px minmax(0,1fr) 76px; gap: 18px; align-items: center; padding: 26px 0; border-top: 1px solid var(--line); }
+.help-number { align-self: start; padding-top: 5px; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.help-copy strong { display: block; color: var(--paper); font-size: 22px; font-weight: 400; line-height: 1.2; letter-spacing: -.035em; }
+#help .help-copy p { margin: 9px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.help-diagram { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; width: 76px; aspect-ratio: 1; transform: rotate(-6deg); }
+.help-diagram i { display: block; border-radius: 5px; background: #3a3e3e; border: 1px solid #ffffff20; }
+.help-first i:nth-child(-n+3) { background: var(--green); }
+.help-first i:nth-child(n+4):nth-child(-n+6) { background: var(--purple); }
+.help-first i:nth-child(n+7) { background: var(--blue); }
+.help-second { transform: rotate(6deg); }
+.help-second i:nth-child(3n+1) { background: var(--green); }
+.help-second i:nth-child(3n+2) { background: var(--purple); }
+.help-second i:nth-child(3n) { background: var(--blue); }
+.help-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding-top: 26px; }
+#help .help-footer p { margin: 0; font-size: 11px; line-height: 1.6; color: var(--muted); }
+#help .primary { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; margin: 0; padding: 12px 21px; background: var(--green); color: var(--ink); border-color: var(--green); }
+#help .primary span { margin: 0; font-size: 20px; line-height: 1; }
+#help .primary:hover { background: #edffb2; }
 #restart-dialog h2 { font-size: 34px; letter-spacing: -1px; margin-bottom: 16px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .answer-pop { animation: answer-found .6s var(--ease); }
@@ -280,6 +302,17 @@ dialog .close { position: absolute; top: 14px; right: 20px; border: 0; backgroun
   dialog { padding: 32px 26px; border-radius: 20px; }
   dialog h2 { font-size: 40px; }
   dialog li, dialog p { font-size: 13px; }
+}
+@media(max-width:420px) {
+  #help { width: calc(100% - 28px); padding: 26px 22px; border-radius: 18px; }
+  #help h2 { font-size: 32px; margin-bottom: 22px; }
+  #help .close { top: 23px; right: 20px; width: 30px; height: 30px; font-size: 22px; }
+  .help-steps li { grid-template-columns: 16px minmax(0,1fr) 52px; gap: 12px; padding-block: 22px; }
+  .help-copy strong { font-size: 19px; }
+  #help .help-copy p { font-size: 12px; margin-top: 8px; }
+  .help-diagram { width: 52px; gap: 3px; }
+  .help-diagram i { border-radius: 4px; }
+  .help-footer { padding-top: 22px; }
 }
 @media(max-width:370px) {
   .topbar { padding-inline: 5%; gap: 12px; }

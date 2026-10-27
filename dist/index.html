@@ -7,7 +7,7 @@
   <meta name="description" content="Solve nine clues. Group the answers two different ways.">
   <title>Two Truths</title>
   <link rel="icon" href="icon.svg?v=446d0c61b804" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=aad3f9f3ef34">
+  <link rel="stylesheet" href="style.css?v=99b6be206d29">
   <script src="puzzles.js?v=21d584a321e7" defer></script>
   <script src="app.js?v=d05f4bee6716" defer></script>
   <script src="truth-shimmer.js?v=c9de28c02db1" defer></script>
@@ -46,13 +46,12 @@
 <dialog id="help" aria-labelledby="help-title">
   <button class="close" aria-label="Close instructions">×</button>
   <h2 id="help-title">How to play</h2>
-  <ol>
-    <li>Answer the nine clues.</li>
-    <li>Find three groups of three. Each group shares a connection.</li>
-    <li>Regroup the same answers into three new groups.</li>
+  <ol class="help-steps">
+    <li><span class="help-number" aria-hidden="true">01</span><div class="help-copy"><strong>Solve nine clues.</strong><p>Each answer becomes a tile.</p></div><span class="help-diagram help-answers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></li>
+    <li><span class="help-number" aria-hidden="true">02</span><div class="help-copy"><strong>Find three groups of three.</strong><p>Each group shares a connection.</p></div><span class="help-diagram help-first" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></li>
+    <li><span class="help-number" aria-hidden="true">03</span><div class="help-copy"><strong>Find three new groups.</strong><p>Use the same answers with different connections.</p></div><span class="help-diagram help-second" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></li>
   </ol>
-  <p>Hints available. Unlimited guesses.</p>
-  <button class="primary close-help">Play <span aria-hidden="true">↗</span></button>
+  <div class="help-footer"><p>Hints available.<br>Unlimited guesses.</p><button class="primary close-help">Play <span aria-hidden="true">↗</span></button></div>
 </dialog>
 <dialog id="restart-dialog" aria-labelledby="restart-label"><h2 id="restart-label">Start this puzzle over?</h2><p>This clears your answers, hints, and results for this puzzle. Your other puzzles keep their progress.</p><div class="group-toolbar"><button class="secondary" id="cancel-restart" autofocus>Keep my progress</button><button class="primary" id="confirm-restart">Start over</button></div></dialog>
 <div class="sr-only" id="announce" role="status" aria-live="polite"></div>
