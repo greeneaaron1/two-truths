@@ -25,9 +25,10 @@ async function startPuzzle(){
   state.started=true;
   render();
   $('#puzzle-label').focus({preventScroll:true});
+  window.scrollTo({top:0,behavior:'instant'});
   say(state.phase===0?'Puzzle ready. Solve the nine clues.':'Puzzle resumed.');
   if(reducedMotion()||state.phase!==0)return;
-  const columns=window.matchMedia('(max-width: 640px)').matches?2:3;
+  const columns=window.matchMedia('(max-width: 370px)').matches?1:window.matchMedia('(max-width: 700px)').matches?2:3;
   const elements=[$('.steps'),game.querySelector('.section-head'),...game.querySelectorAll('.card'),game.querySelector('.bottom-bar')];
   elements.forEach((element,index)=>{
     const delay=index<2?index*80:index===elements.length-1?520:200+Math.floor((index-2)/columns)*120;
